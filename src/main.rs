@@ -1,15 +1,20 @@
 use rand::prelude::*;
 use rand_chacha::ChaCha8Rng;
 
-use cellular_automata::cli::parse_cli;
+use cellular_automata::cli::{parse_cli, Initialisation};
 use cellular_automata::elementary::{run_evolution, Grid};
 use cellular_automata::plot::plot_evolution;
 
 fn main() {
     let params = parse_cli();
 
-    let mut rng = ChaCha8Rng::seed_from_u64(params.seed);
-    let grid: Grid<256> = Grid::random(&mut rng);
+    let grid: Grid<601> = match params.init {
+        Initialisation::Random => {
+            let mut rng = ChaCha8Rng::seed_from_u64(params.seed);
+            Grid::random(&mut rng)
+        }
+        Initialisation::Middle => Grid::default(),
+    };
 
     let rule = params.rule.into();
     let n_generations = params.generations;
