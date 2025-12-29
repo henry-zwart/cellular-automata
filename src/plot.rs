@@ -6,7 +6,7 @@ pub fn plot_evolution<const W: usize, P: AsRef<Path>>(
     generations: &[Grid<W>],
     filepath: P,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let cell_size = 20; // Size of each cell in pixels
+    let cell_size = 10; // Size of each cell in pixels
     let width = W * cell_size; // Fixed width for each generation
     let height = generations.len() * cell_size;
 

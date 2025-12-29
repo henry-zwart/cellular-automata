@@ -7,15 +7,14 @@ pub struct Rule(pub u8);
 impl Rule {
     pub fn apply(&self, neighborhood: &[u8; 3]) -> u8 {
         let idx = Rule::get_transition_idx(neighborhood);
-        (self.0 >> idx) & 0b_00000001
+        (self.0 >> idx) & 0b1
     }
 
     pub fn get_transition_idx(neighborhood: &[u8; 3]) -> usize {
-        let idx: u8 = neighborhood
-            .iter()
-            .enumerate()
-            .map(|(i, s)| s * 2_u8.pow(2_u32 - i as u32))
-            .sum();
+        let mut idx = 0;
+        for n in neighborhood {
+            idx = (idx << 1) | n
+        }
         idx as usize
     }
 }
